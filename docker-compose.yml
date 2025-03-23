@@ -1,0 +1,22 @@
+version: '3'
+services:
+  user-service:
+    build: .
+    ports:
+      - '3002:3002'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+  postgres:
+    image: postgres:13
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d ecommerce_users"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
