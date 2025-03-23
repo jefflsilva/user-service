@@ -26,4 +26,21 @@ export class PrismaUserRepository implements IUserRepository {
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany() as Promise<User[]>;
   }
+
+  async update(
+    id: string,
+    data: Partial<Omit<User, 'password'>>,
+  ): Promise<User | null> {
+    return this.prisma.user.update({
+      where: { id },
+      data,
+    }) as Promise<User | null>;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
+    return true;
+  }
 }

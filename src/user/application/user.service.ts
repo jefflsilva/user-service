@@ -46,4 +46,23 @@ export class UserService {
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.findAll();
   }
+
+  async update(id: string, data: Partial<User>): Promise<User | null> {
+    const { email, role, name } = data;
+    if (email) {
+      const emailExists = await this.userRepository.findByEmail(email);
+      if (emailExists) {
+        throw new ConflictException('User with this email already exists');
+      }
+    }
+    return this.userRepository.update(id, { email, role, name });
+  }
+
+  async delete(id: string): Promise<void> {
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    await this.userRepository.delete(id);
+  }
 }
