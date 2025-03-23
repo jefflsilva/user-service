@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../config/prisma.service';
 import { IUserRepository } from '../domain/repositories/user.repository';
-import { CreatedUserOutputDto, User } from '../domain/entities/user.entity';
+import { CreateUserInputDto, User } from '../domain/entities/user.entity';
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -19,7 +19,7 @@ export class PrismaUserRepository implements IUserRepository {
     }) as Promise<User | null>;
   }
 
-  async create(data: CreatedUserOutputDto): Promise<User> {
+  async create(data: CreateUserInputDto): Promise<User> {
     return this.prisma.user.create({ data }) as Promise<User>;
   }
 

@@ -7,4 +7,5 @@ export type User = {
   role: string;
 };
 
-export type CreatedUserOutputDto = Omit<User, 'id' | 'createdAt'>;
+export type CreateUserInputDto = Omit<User, 'id' | 'createdAt'>;
+export type CreatedUserOutputDto = Omit<CreateUserInputDto, 'password'>;
